@@ -1,10 +1,10 @@
 (defproject fractal "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-3211"]
-                 [reagent "0.5.0"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.122"]
+                 [reagent "0.5.1"]
                  [re-frame "0.4.1"]
-                 [re-com "0.6.1"]
-                 [garden "1.2.5"]]
+                 [re-com "0.6.2"]
+                 [garden "1.3.0-SNAPSHOT"]]
 
   :source-paths ["src/clj"]
 
