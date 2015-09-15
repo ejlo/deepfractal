@@ -1,16 +1,23 @@
 (ns fractal.views
-    (:require [re-frame.core :as re-frame]
-              [re-com.core :as re-com]))
+    (:require [re-frame.core :as re-frame]))
 
-(defn title []
+(defn home-panel []
   (let [name (re-frame/subscribe [:name])]
     (fn []
-      [re-com/title
-       :label (str "Hello from " @name)
-       :level :level1])))
+      [:div (str "Hello from " @name ". This is the Home Page!")
+       [:div [:a {:href "#/about"} "go to About Page"]]])))
+
+(defn about-panel []
+  (fn []
+    [:div "This is the About Page."
+     [:div [:a {:href "#/"} "go to Home Page"]]]))
+
+(defmulti panels identity)
+(defmethod panels :home-panel [] [home-panel])
+(defmethod panels :about-panel [] [about-panel])
+(defmethod panels :default [] [:div])
 
 (defn main-panel []
-  (fn []
-    [re-com/v-box
-     :height "100%"
-     :children [[title]]]))
+  (let [active-panel (re-frame/subscribe [:active-panel])]
+    (fn []
+      (panels @active-panel))))

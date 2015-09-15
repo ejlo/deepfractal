@@ -3,8 +3,8 @@
                  [org.clojure/clojurescript "1.7.122"]
                  [reagent "0.5.1"]
                  [re-frame "0.4.1"]
-                 [re-com "0.6.2"]
-                 [garden "1.3.0-SNAPSHOT"]]
+                 [garden "1.3.0-SNAPSHOT"]
+                 [secretary "1.2.3"]]
 
   :source-paths ["src/clj"]
 
@@ -22,15 +22,13 @@
             "auto" ["pdo" "css," "fig"]
             "dev" ["do" "clean," "auto"]}
 
-
   :garden {:builds [{:id "screen"
                      :source-paths ["src/clj"]
                      :stylesheet fractal.css/screen
                      :compiler {:output-to "resources/public/css/compiled/screen.css"
                                 :pretty-print? true}}]}
 
-  :figwheel {:server-logfile "logs/figwheel_server.log"
-             :css-dirs ["resources/public/css/compiled"]
+  :figwheel {:css-dirs ["resources/public/css/compiled"]
              :repl false
              :nrepl-port 7888}
 
