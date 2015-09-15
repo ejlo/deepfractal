@@ -29,6 +29,11 @@
                      :compiler {:output-to "resources/public/css/compiled/screen.css"
                                 :pretty-print? true}}]}
 
+  :figwheel {:server-logfile "logs/figwheel_server.log"
+             :css-dirs ["resources/public/css/compiled"]
+             :repl false
+             :nrepl-port 7888}
+
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
 
