@@ -1,0 +1,5 @@
+target/
+*.log
+resources/public/css/compiled
+resources/public/js/compiled
+logs/
