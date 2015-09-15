@@ -9,13 +9,20 @@
   :source-paths ["src/clj"]
 
   :plugins [[lein-cljsbuild "1.0.6"]
-            [lein-figwheel "0.3.3" :exclusions [cider/cider-nrepl]] 
-            [lein-garden "0.2.6"] ]
+            [lein-figwheel "0.3.3" :exclusions [cider/cider-nrepl]]
+            [lein-garden "0.2.6"]
+            [lein-pdo "0.1.1"]]
 
-  :clean-targets ^{:protect false} ["resources/public/js/compiled" "target" 
-                                    "test/js" 
+  :clean-targets ^{:protect false} ["target" "test/js"
+                                    "resources/public/js/compiled"
                                     "resources/public/css/compiled"]
-  
+
+  :aliases {"css" ["garden" "auto"]
+            "fig" ["figwheel" "dev"]
+            "auto" ["pdo" "css," "fig"]
+            "dev" ["do" "clean," "auto"]}
+
+
   :garden {:builds [{:id "screen"
                      :source-paths ["src/clj"]
                      :stylesheet fractal.css/screen
