@@ -8,10 +8,11 @@
 
   :source-paths ["src/clj"]
 
-  :plugins [[lein-cljsbuild "1.0.6"]
-            [lein-figwheel "0.3.3" :exclusions [cider/cider-nrepl]]
+  :plugins [[lein-cljsbuild "1.1.0"]
+            [lein-figwheel "0.3.9" :exclusions [cider/cider-nrepl]]
             [lein-garden "0.2.6"]
-            [lein-pdo "0.1.1"]]
+            [lein-pdo "0.1.1"]
+            [lein-ancient "0.6.7"]]
 
   :clean-targets ^{:protect false} ["target" "test/js"
                                     "resources/public/js/compiled"
@@ -20,7 +21,8 @@
   :aliases {"css" ["garden" "auto"]
             "fig" ["figwheel" "dev"]
             "auto" ["pdo" "css," "fig"]
-            "dev" ["do" "clean," "auto"]}
+            "dev" ["do" "clean," "auto"]
+            "upgrade-deps" ["ancient" "upgrade" ":all"]}
 
   :garden {:builds [{:id "screen"
                      :source-paths ["src/clj"]
