@@ -43,16 +43,15 @@
 
 (def mandel mandel-simple)
 
-(defn make-mandel-data [[width height :as dim] [cx cy :as center] zoom max-n]
-  (let [dx (/ 3.5 width zoom)
-        dy (/ 3.5 height zoom)
+(defn make-mandel-data [{:keys [width height]} [cx cy :as center] zoom max-n]
+  (let [ds (/ 3.5 (* 0.5 (+ width height)) zoom)
         a #js []]
     (dotimes [j height]
-      (let [y (+ cy (* (- j (/ (dec height) 2)) dy))
+      (let [y (+ cy (* (- (/ (dec height) 2) j) ds))
             _ (aset a j #js [])
             aj (aget a j)]
         (dotimes [i width]
-          (let [x (+ cx (* (- i (/ (dec width) 2)) dx))]
+          (let [x (+ cx (* (- i (/ (dec width) 2)) ds))]
             (aset aj i (mandel max-n x y))))))
     a))
 
@@ -60,17 +59,19 @@
   (if (nil? v) 0 255)
   )
 
-(defn make-image [[width height] data ctx]
-  (let [img-data (.createImageData ctx width height)]
+(defn make-image [{:keys [width height]} data ctx]
+  (let [img (.createImageData ctx width height)
+        img-data (.-data img)]
     (dotimes [j height]
-      (let [offset (* j height 4)
+      (let [offset (* j width 4)
             aj (aget data j)]
         (dotimes [i width]
           (let [col (value->color (aget aj i))]
             (aset img-data (+ offset (* 4 i) 0) col)
             (aset img-data (+ offset (* 4 i) 1) col)
             (aset img-data (+ offset (* 4 i) 2) col)
-            (aset img-data (+ offset (* 4 i) 3) 255)))))))
+            (aset img-data (+ offset (* 4 i) 3) 255)))))
+    img))
 
 (comment
 
@@ -99,10 +100,20 @@
         Miter-per-s)))
 
   (do
-    (time (def data (make-mandel-data [1920 1080] [-0.75 0] 1 1000)))
-
-
+    (time (def data (make-mandel-data {:width 1920 :height 1080}
+                                      [-0.75 0] 1 1000)))
     nil)
+
+  (time
+   (let [canvas (.getElementById js/document "fractal-canvas")
+         ctx (.getContext canvas "2d")
+         dim {:width 1504 :height 925}
+         data (make-mandel-data dim [-0.158 1.0335] 150 10000)
+         img (make-image dim data ctx)
+
+         ]
+     (.putImageData ctx img 0 0)
+     ))
 
   (benchmark mandel-simple 30000000)
 
