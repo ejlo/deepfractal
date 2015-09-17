@@ -22,6 +22,7 @@
             "fig" ["figwheel" "dev"]
             "auto" ["pdo" "css," "fig"]
             "dev" ["do" "clean," "auto"]
+            "check-deps" ["ancient" ":all"]
             "upgrade-deps" ["ancient" "upgrade" ":all"]}
 
   :garden {:builds [{:id "screen"
