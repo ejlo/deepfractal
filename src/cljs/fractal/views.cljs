@@ -1,11 +1,12 @@
 (ns fractal.views
   (:require [reagent.core :as reagent]
-            [re-frame.core :as re-frame]))
+            [re-frame.core :as re-frame]
+            [fractal.math.mandel :as mandel]
+            [fractal.utils :as utils]))
 
 (defn home-panel []
-  (let [name (re-frame/subscribe [:name])]
-    (fn []
-      [:div.content.home (str "Hello from " @name ". This is the Home Page!")])))
+  (fn []
+    [:div.content.home "This is the Home Page!"]))
 
 (defn about-panel []
   (fn []
@@ -16,10 +17,11 @@
         canvas-elem (.getElementById js/document "fractal-canvas")
         width (.-clientWidth div-elem)
         height (.-clientHeight div-elem)]
-    (re-frame/dispatch [:change-canvas-size {:width width :height height}])))
+    (re-frame/dispatch [:set-canvas-size {:width width :height height}])))
 
 (defn fractal-canvas []
-  (let [canvas-size (re-frame/subscribe [:canvas-size])]
+  (let [canvas-size (re-frame/subscribe [:canvas-size])
+        fractal-params (re-frame/subscribe [:fractal-params])]
     (reagent/create-class
      {:component-did-mount
       #(do (.addEventListener js/window "resize" onresize-callback)
@@ -32,16 +34,16 @@
 
       :reagent-render
       (fn []
-        (let [canvas-size (re-frame/subscribe [:canvas-size])]
-          (fn []
-            [:div#fractal-canvas-div.fractal-canvas-div
-             [:canvas#fractal-canvas.fractal-canvas @canvas-size]])))})))
+        (utils/debounce "canvas" 100
+                        #(mandel/draw-image @canvas-size @fractal-params))
+        [:canvas#fractal-canvas.fractal-canvas @canvas-size])})))
 
 (defn fractal-panel []
   (fn []
     [:div.content.fractal
      [:div.fractal-control-bar]
-     [fractal-canvas]]))
+     [:div#fractal-canvas-div.fractal-canvas-div
+      [fractal-canvas]]]))
 
 (defmulti panels identity)
 (defmethod panels :home-panel [] [home-panel])

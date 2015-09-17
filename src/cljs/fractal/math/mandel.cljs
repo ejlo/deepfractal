@@ -59,7 +59,7 @@
   (if (nil? v) 0 255)
   )
 
-(defn make-image [{:keys [width height]} data ctx]
+(defn make-image [ctx {:keys [width height]} data]
   (let [img (.createImageData ctx width height)
         img-data (.-data img)]
     (dotimes [j height]
@@ -72,6 +72,16 @@
             (aset img-data (+ offset (* 4 i) 2) col)
             (aset img-data (+ offset (* 4 i) 3) 255)))))
     img))
+
+(defn draw-image [canvas-size {:keys [center zoom max-n] :as fractal-params}]
+  (prn "(draw-image)" center zoom max-n canvas-size)
+  (when-let [ctx (some-> js/document
+                         (.getElementById "fractal-canvas")
+                         (.getContext "2d"))]
+    (prn "(draw-image)" "drawing..")
+    (let [data (make-mandel-data canvas-size center zoom max-n)
+          img (make-image ctx canvas-size data)]
+      (.putImageData ctx img 0 0))))
 
 (comment
 
@@ -107,19 +117,10 @@
   (time
    (let [canvas (.getElementById js/document "fractal-canvas")
          ctx (.getContext canvas "2d")
-         dim {:width 1504 :height 925}
-         data (make-mandel-data dim [-0.158 1.0335] 150 10000)
-         img (make-image dim data ctx)
-
-         ]
-     (.putImageData ctx img 0 0)
-     ))
+         dim {:width 329 :height 362}]
+     (draw-image ctx dim {:center [-0.158 1.0335] :zoom 15 :max-n 10000})))
 
   (benchmark mandel-simple 30000000)
 
   ;; ~289M iterations/s
-
-
-
-
   )

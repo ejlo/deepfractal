@@ -13,6 +13,24 @@
    (assoc db :active-panel active-panel)))
 
 (re-frame/register-handler
- :change-canvas-size
+ :set-canvas-size
  (fn [db [_ dim]]
    (assoc db :canvas-size dim)))
+
+
+
+
+(re-frame/register-handler
+ :set-center
+ (fn [db [_ cx cy]]
+   (assoc-in db [:fractal-params :center] [cx cy])))
+
+(re-frame/register-handler
+ :set-zoom
+ (fn [db [_ zoom]]
+   (assoc-in db [:fractal-params :zoom] zoom)))
+
+(re-frame/register-handler
+ :set-max-n
+ (fn [db [_ max-n]]
+   (assoc-in db [:fractal-params :max-n] max-n)))

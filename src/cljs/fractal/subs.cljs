@@ -12,3 +12,8 @@
  :canvas-size
  (fn [db]
    (reaction (:canvas-size @db))))
+
+(re-frame/register-sub
+ :fractal-params
+ (fn [db]
+   (reaction (:fractal-params @db))))
