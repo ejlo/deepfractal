@@ -3,11 +3,12 @@
     (:require [re-frame.core :as re-frame]))
 
 (re-frame/register-sub
- :name
- (fn [db]
-   (reaction (:name @db))))
-
-(re-frame/register-sub
  :active-panel
  (fn [db _]
    (reaction (:active-panel @db))))
+
+
+(re-frame/register-sub
+ :canvas-size
+ (fn [db]
+   (reaction (:canvas-size @db))))

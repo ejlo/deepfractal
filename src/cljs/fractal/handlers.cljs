@@ -11,3 +11,8 @@
  :set-active-panel
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
+
+(re-frame/register-handler
+ :change-canvas-size
+ (fn [db [_ dim]]
+   (assoc db :canvas-size dim)))

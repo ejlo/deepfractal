@@ -73,7 +73,8 @@
      :width (percent 100)}
     [:.navbar]
     [:.content
-     {:flex-grow 1}]]])
+     {:flex-grow 1
+      :overflow :hidden}]]])
 
 (def fractal-content
   [:.content.fractal
@@ -82,16 +83,14 @@
     :flex-direction :row
     :flex-wrap :nowrap}
    [:.fractal-control-bar
-    {
-     :width (em 15)}
-    ]
-   [:.fractal-canvas
+    {:min-width (em 10)
+     :width (em 15)}]
+   [:.fractal-canvas-div
     {:flex-grow 1
      :border [[(px 1) :solid "#ddd"]]
      :margin-right (px 20)
-     :margin-bottom (px 20)}]
-   ])
-
+     :margin-bottom (px 20)
+     :overflow :hidden}]])
 
 (defstyles screen
   [[:body {:color "red"}]

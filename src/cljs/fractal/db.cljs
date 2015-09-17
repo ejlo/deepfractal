@@ -1,4 +1,4 @@
 (ns fractal.db)
 
 (def default-db
-  {:name "re-frame"})
+  {:canvas-size {:width 320 :height 200}})
