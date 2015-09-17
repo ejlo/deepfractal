@@ -8,6 +8,8 @@
             [fractal.math.mandel :as mandel]
             ))
 
+(enable-console-print!)
+
 (defn mount-root []
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
