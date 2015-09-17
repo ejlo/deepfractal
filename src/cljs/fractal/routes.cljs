@@ -24,6 +24,9 @@
   (defroute "/about" []
     (re-frame/dispatch [:set-active-panel :about-panel]))
 
+  (defroute "/fractal" []
+    (re-frame/dispatch [:set-active-panel :fractal-panel]))
+
 
   ;; --------------------
   (hook-browser-navigation!))
