@@ -4,7 +4,9 @@
             [fractal.handlers]
             [fractal.subs]
             [fractal.routes :as routes]
-            [fractal.views :as views]))
+            [fractal.views :as views]
+            [fractal.math.mandel :as mandel]
+            ))
 
 (defn mount-root []
   (reagent/render [views/main-panel]
