@@ -7,8 +7,8 @@ A fractal explorer webapp
 * Fast rendering with webgl 
 * Smooth coloring
 * Color editor using d3 graphs
-* Fast deep zooming using a preturbation algoritm
-* High quality final rendering, with antialiasing
+* Fast deep zooming using a perturbation algorithm
+* High quality final rendering, with anti-aliasing
 
 ## Development
 
