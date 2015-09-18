@@ -45,15 +45,42 @@
 
       :reagent-render
       (fn []
-        (utils/debounce "canvas" 100
+        (utils/debounce "canvas" 250
                         #(mandel/draw-image @canvas-size @fractal-params))
         [:canvas#fractal-canvas.fractal-canvas @canvas-size
          {:data-params @fractal-params}])})))
 
+(defn input [id label dispatch-event-key val {:keys [exponential?]}]
+  (let [dispatch-fn #(re-frame/dispatch-sync [dispatch-event-key %])
+        onchange-fn (fn [e]
+                      (let [new-val (-> e .-target .-value)]
+                        (dispatch-fn new-val)))]
+    [:div.input
+     [:label label]
+     [:input {:type "number"
+              :id id
+              :value (if (and exponential? (number? val) (> val 10000))
+                       (.toExponential val 3)
+                       val)
+              :on-change onchange-fn}]]))
+
+(defn fractal-control-bar []
+  (let [fractal-params (re-frame/subscribe [:fractal-params])]
+    [:div.fractal-control-bar
+     [:form
+      [input "zoom" "Zoom" :set-zoom (:zoom @fractal-params) {:exponential? true}]
+      [input "max-n" "Max Iterations" :set-max-n (:max-n @fractal-params)]
+      [input "cx" "Center x" :set-center-x (first (:center @fractal-params))]
+      [input "cy" "Center y" :set-center-y (second (:center @fractal-params))]
+      ]]
+
+    )
+  )
+
 (defn fractal-panel []
   (fn []
     [:div.content.fractal
-     [:div.fractal-control-bar]
+     [fractal-control-bar]
      [:div#fractal-canvas-div.fractal-canvas-div
       [fractal-canvas]]]))
 

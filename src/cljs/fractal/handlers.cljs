@@ -1,6 +1,7 @@
 (ns fractal.handlers
     (:require [re-frame.core :as re-frame]
               [fractal.db :as db]
+              [fractal.utils :as utils]
               [fractal.math.coords :as coords]))
 
 (re-frame/register-handler
@@ -27,6 +28,17 @@
    (assoc-in db [:fractal-params :center] [cx cy])))
 
 (re-frame/register-handler
+ :set-center-x
+ (fn [db [_ cx]]
+   (assoc-in db [:fractal-params :center 0] cx)))
+
+(re-frame/register-handler
+ :set-center-y
+ (fn [db [_ cy]]
+   (assoc-in db [:fractal-params :center 1] cy)))
+
+
+(re-frame/register-handler
  :set-zoom
  (fn [db [_ zoom]]
    (assoc-in db [:fractal-params :zoom] zoom)))
@@ -34,14 +46,19 @@
 (re-frame/register-handler
  :set-max-n
  (fn [db [_ max-n]]
-   (assoc-in db [:fractal-params :max-n] max-n)))
+   (if (pos? max-n)
+     (assoc-in db [:fractal-params :max-n] max-n)
+     db)))
 
 (re-frame/register-handler
  :canvas-zoom
  (fn [{:keys [fractal-params canvas-size] :as db} [_ canvas-coords zoom-factor]]
    (let [{:keys [center zoom]} fractal-params
+         center (mapv utils/->float center)
+         zoom (utils/->float zoom)
          fractal-coords (coords/canvas->fractal canvas-size center zoom canvas-coords)
          new-center (coords/zoom center fractal-coords zoom-factor)]
      (-> db
-         (assoc-in [:fractal-params :zoom] (* zoom zoom-factor))
+         (assoc-in [:fractal-params :zoom]
+                   (utils/round-to-significant-figures (* zoom zoom-factor) 2.5))
          (assoc-in [:fractal-params :center] new-center)))))

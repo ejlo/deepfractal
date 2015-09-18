@@ -84,7 +84,12 @@
     :flex-wrap :nowrap}
    [:.fractal-control-bar
     {:min-width (em 10)
-     :width (em 15)}]
+     :width (em 15)
+     :margin-left (px 20)}
+    [:.input
+     {:margin 0
+      :margin-top (em 1)
+      }]]
    [:.fractal-canvas-div
     {:flex-grow 1
      :border [[(px 1) :solid "#ddd"]]
@@ -93,8 +98,7 @@
      :overflow :hidden}]])
 
 (defstyles screen
-  [[:body {:color "red"}]
-   noselect
+  [noselect
    no-navbar-collapse
    navbar-style
    app

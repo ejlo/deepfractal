@@ -1,4 +1,5 @@
-(ns fractal.math.mandel)
+(ns fractal.math.mandel
+  (:require [fractal.utils :as utils]))
 
 
 (defn sqr [x] (* x x))
@@ -45,6 +46,9 @@
 
 (defn make-mandel-data [{:keys [width height]} [cx cy :as center] zoom max-n]
   (let [ds (/ 3.5 (* 0.5 (+ width height)) zoom)
+        cx (utils/->float cx)
+        cy (utils/->float cy)
+        max-n (int max-n)
         a #js []]
     (dotimes [j height]
       (let [y (+ cy (* (- (/ (dec height) 2) j) ds))
