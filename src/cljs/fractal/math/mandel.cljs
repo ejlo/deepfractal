@@ -78,7 +78,6 @@
   (when-let [ctx (some-> js/document
                          (.getElementById "fractal-canvas")
                          (.getContext "2d"))]
-    (prn "(draw-image)" "drawing..")
     (let [data (make-mandel-data canvas-size center zoom max-n)
           img (make-image ctx canvas-size data)]
       (.putImageData ctx img 0 0))))

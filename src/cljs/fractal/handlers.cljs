@@ -1,6 +1,7 @@
 (ns fractal.handlers
     (:require [re-frame.core :as re-frame]
-              [fractal.db :as db]))
+              [fractal.db :as db]
+              [fractal.math.coords :as coords]))
 
 (re-frame/register-handler
  :initialize-db
@@ -34,3 +35,13 @@
  :set-max-n
  (fn [db [_ max-n]]
    (assoc-in db [:fractal-params :max-n] max-n)))
+
+(re-frame/register-handler
+ :canvas-zoom
+ (fn [{:keys [fractal-params canvas-size] :as db} [_ canvas-coords zoom-factor]]
+   (let [{:keys [center zoom]} fractal-params
+         fractal-coords (coords/canvas->fractal canvas-size center zoom canvas-coords)
+         new-center (coords/zoom center fractal-coords zoom-factor)]
+     (-> db
+         (assoc-in [:fractal-params :zoom] (* zoom zoom-factor))
+         (assoc-in [:fractal-params :center] new-center)))))

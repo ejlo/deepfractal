@@ -19,12 +19,23 @@
         height (.-clientHeight div-elem)]
     (re-frame/dispatch [:set-canvas-size {:width width :height height}])))
 
+(defn left-button? [event]
+  (= (.-button event) 0))
+
+(defn mousedown-callback [event]
+  (let [i (.-offsetX event)
+        j (.-offsetY event)]
+    (when (left-button? event)
+      (re-frame/dispatch [:canvas-zoom [i j] 1.3]))))
+
 (defn fractal-canvas []
   (let [canvas-size (re-frame/subscribe [:canvas-size])
         fractal-params (re-frame/subscribe [:fractal-params])]
     (reagent/create-class
      {:component-did-mount
-      #(do (.addEventListener js/window "resize" onresize-callback)
+      #(do
+         (.addEventListener js/window "resize" onresize-callback)
+           (.addEventListener (.getDOMNode %) "mousedown" mousedown-callback)
            (onresize-callback))
 
       :component-will-unmount
@@ -36,7 +47,8 @@
       (fn []
         (utils/debounce "canvas" 100
                         #(mandel/draw-image @canvas-size @fractal-params))
-        [:canvas#fractal-canvas.fractal-canvas @canvas-size])})))
+        [:canvas#fractal-canvas.fractal-canvas @canvas-size
+         {:data-params @fractal-params}])})))
 
 (defn fractal-panel []
   (fn []
