@@ -26,7 +26,7 @@ Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
 
 ### Emacs
 
-For setting up a repl and dev tools in emacs, use can use cider. To quickly connect you can add the following commands to your .emacs:  
+For setting up a repl and dev tools in emacs, you can use cider. To quickly connect you can add the following commands to your .emacs:  
 
 ```elisp
 
