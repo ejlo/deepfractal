@@ -1,11 +1,11 @@
-(ns fractal.core
+(ns deepfractal.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
-            [fractal.handlers]
-            [fractal.subs]
-            [fractal.routes :as routes]
-            [fractal.views :as views]
-            [fractal.math.mandel :as mandel]
+            [deepfractal.handlers]
+            [deepfractal.subs]
+            [deepfractal.routes :as routes]
+            [deepfractal.views :as views]
+            [deepfractal.math.mandel :as mandel]
             ))
 
 (enable-console-print!)

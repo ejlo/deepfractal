@@ -1,4 +1,4 @@
-(ns fractal.css
+(ns deepfractal.css
   (:require [garden.def :refer [defstyles]]
             [garden.units :as unit :refer [px em percent]]
             [garden.color :as color]))

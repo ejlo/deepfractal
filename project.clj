@@ -1,4 +1,4 @@
-(defproject fractal "0.1.0-SNAPSHOT"
+(defproject deepfractal "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
                  [reagent "0.5.1"]
@@ -27,7 +27,7 @@
 
   :garden {:builds [{:id "screen"
                      :source-paths ["src/clj"]
-                     :stylesheet fractal.css/screen
+                     :stylesheet deepfractal.css/screen
                      :compiler {:output-to "resources/public/css/compiled/screen.css"
                                 :pretty-print? true}}]}
 
@@ -38,9 +38,9 @@
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
 
-                        :figwheel {:on-jsload "fractal.core/mount-root"}
+                        :figwheel {:on-jsload "deepfractal.core/mount-root"}
 
-                        :compiler {:main fractal.core
+                        :compiler {:main deepfractal.core
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
                                    :asset-path "js/compiled/out"
@@ -56,7 +56,7 @@
 
                        {:id "min"
                         :source-paths ["src/cljs"]
-                        :compiler {:main fractal.core
+                        :compiler {:main deepfractal.core
                                    :output-to "resources/public/js/compiled/app.js"
                                    :optimizations :advanced
                                    :pretty-print false}}]})

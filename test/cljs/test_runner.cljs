@@ -1,7 +1,7 @@
 (ns test-runner
   (:require
    [cljs.test :as test :refer-macros [run-tests] :refer [report]]
-   [fractal.core-test] ))
+   [deepfractal.core-test] ))
 
 (enable-console-print!)
 
@@ -14,4 +14,4 @@
 (defn runner []
   (test/run-tests
    (test/empty-env ::test/default)
-   'fractal.core-test))
+   'deepfractal.core-test))

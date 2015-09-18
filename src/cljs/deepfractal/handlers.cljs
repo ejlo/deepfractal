@@ -1,8 +1,8 @@
-(ns fractal.handlers
+(ns deepfractal.handlers
     (:require [re-frame.core :as re-frame]
-              [fractal.db :as db]
-              [fractal.utils :as utils]
-              [fractal.math.coords :as coords]))
+              [deepfractal.db :as db]
+              [deepfractal.utils :as utils]
+              [deepfractal.math.coords :as coords]))
 
 (re-frame/register-handler
  :initialize-db

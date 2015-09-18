@@ -1,4 +1,4 @@
-(ns fractal.utils)
+(ns deepfractal.utils)
 
 (def debounce-timers (atom {}))
 

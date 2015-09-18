@@ -1,4 +1,4 @@
-(ns fractal.math.coords)
+(ns deepfractal.math.coords)
 
 ;; canvas coords (i,j)
 ;;

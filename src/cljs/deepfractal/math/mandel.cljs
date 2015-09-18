@@ -1,5 +1,5 @@
-(ns fractal.math.mandel
-  (:require [fractal.utils :as utils]))
+(ns deepfractal.math.mandel
+  (:require [deepfractal.utils :as utils]))
 
 
 (defn sqr [x] (* x x))

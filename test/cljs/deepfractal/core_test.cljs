@@ -1,7 +1,7 @@
-(ns fractal.core-test
+(ns deepfractal.core-test
   (:require
    [cljs.test :refer-macros [deftest testing is]]
-   [fractal.core :as core]))
+   [deepfractal.core :as core]))
 
 (deftest fake-test
   (testing "fake description"

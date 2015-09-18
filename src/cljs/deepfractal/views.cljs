@@ -1,8 +1,8 @@
-(ns fractal.views
+(ns deepfractal.views
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
-            [fractal.math.mandel :as mandel]
-            [fractal.utils :as utils]))
+            [deepfractal.math.mandel :as mandel]
+            [deepfractal.utils :as utils]))
 
 (defn home-panel []
   (fn []
