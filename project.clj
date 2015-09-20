@@ -12,7 +12,15 @@
             [lein-figwheel "0.3.9" :exclusions [cider/cider-nrepl]]
             [lein-garden "0.2.6"]
             [lein-pdo "0.1.1"]
-            [lein-ancient "0.6.7"]]
+            [lein-ancient "0.6.7"]
+            [lein-bower "0.5.1"]
+            [lein-shell "0.4.1"]]
+
+  :bower-dependencies [[d3 "3.5.6"]
+                       [decimal.js "4.0.2"]
+                       [bootstrap-css-only "3.3.5"]]
+
+  :bower {:directory "bower_components"}
 
   :clean-targets ^{:protect false} ["target" "test/js"
                                     "resources/public/js/compiled"
@@ -22,6 +30,7 @@
             "fig" ["figwheel" "dev"]
             "auto" ["pdo" "css," "fig"]
             "dev" ["do" "clean," "auto"]
+            "bower-install" ["do" "bower" "install," "shell" "scripts/install.sh"]
             "check-deps" ["ancient" ":all"]
             "upgrade-deps" ["ancient" "upgrade" ":all"]}
 

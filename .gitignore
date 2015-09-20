@@ -1,7 +1,9 @@
 target/
 *.log
 resources/public/css/compiled
+resources/public/css/vendor
 resources/public/js/compiled
+resources/public/js/vendor
 logs/
 .repl/
 .lein*
