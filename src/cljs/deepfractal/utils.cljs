@@ -24,3 +24,16 @@
 (defn ->float [x]
   (let [x (if (and x (number? x)) x (js/parseFloat x))]
     (if (js/isNaN x) 0 x)))
+
+
+(defn get-time! [] (.getTime (js/Date.)))
+
+(defn benchmark [label f n]
+  (prn "Benchmark starting!")
+  (let [start (get-time!)
+        ret (f n)
+        ms (- (get-time!) start)
+        Miter-per-s (round-to-significant-figures (/ n ms 1000) 2)
+        _ (prn )]
+    (prn (str label ": " ms "ms, " Miter-per-s "M it./s"))
+    Miter-per-s))
