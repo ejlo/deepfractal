@@ -1,7 +1,7 @@
 (ns deepfractal.views
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
-            [deepfractal.math.mandel :as mandel]
+            [deepfractal.image :as image]
             [deepfractal.utils :as utils]))
 
 (defn home-panel []
@@ -46,7 +46,7 @@
       :reagent-render
       (fn []
         (utils/debounce "canvas" 250
-                        #(mandel/draw-image @canvas-size @fractal-params))
+                        #(image/draw-image @canvas-size @fractal-params))
         [:canvas#fractal-canvas.fractal-canvas @canvas-size
          {:data-params @fractal-params}])})))
 
