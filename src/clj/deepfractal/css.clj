@@ -1,6 +1,6 @@
 (ns deepfractal.css
   (:require [garden.def :refer [defstyles]]
-            [garden.units :as unit :refer [px em percent]]
+            [garden.units :as unit :refer [px em percent vh]]
             [garden.color :as color]))
 
 (defn add-alpha [c a]
@@ -40,6 +40,7 @@
 
 (def navbar-style
   [:.navbar-default
+   {:margin-bottom 0}
    [:.navbar-nav>li>a:hover
     {:background-color (rgba :black 0.01)}]
    [:.navbar-brand
@@ -77,25 +78,68 @@
       :overflow :hidden}]]])
 
 (def fractal-content
-  [:.content.fractal
-   {:position :relative
-    :display :flex
-    :flex-direction :row
-    :flex-wrap :nowrap}
-   [:.fractal-control-bar
-    {:min-width (em 10)
-     :width (em 15)
-     :margin-left (px 20)}
-    [:.input
-     {:margin 0
-      :margin-top (em 1)
-      }]]
-   [:.fractal-canvas-div
-    {:flex-grow 1
-     :border [[(px 1) :solid "#ddd"]]
-     :margin-right (px 20)
-     :margin-bottom (px 20)
-     :overflow :hidden}]])
+  (let [margin (em 0.2)
+        border [[(px 1) :solid "#ddd"]]]
+    [:.content.fractal
+     {:position :relative
+      :display :flex
+      :flex-direction :column
+      :flex-wrap :nowrap
+      :margin margin}
+     [:.fractal-column
+      {:position :relative
+       :flex-grow 4
+       :display :flex
+       :flex-direction :row
+       :flex-wrap :nowrap
+       :overflow :hidden
+       }
+      [:.fractal-control-bar
+       {:min-width (em 10)
+        :width (em 15)
+        :margin margin
+        :padding [[(em 0.2) (em 0.5)]]
+        :border border}
+       [:.input
+        [:input
+         {:width (percent 100)
+          :padding [[(px 1) margin]]}]
+        [:label
+         {:margin 0
+          :margin-top (em 1)}]
+        [:&:first-child
+         [:label
+          {:margin-top (em 0)}]]]]
+      [:.fractal-canvas-div
+       {:flex-grow 1
+        :border border
+        :margin margin
+        :overflow :hidden}]]
+     [:.color-column
+      {:min-height (vh 15)
+       :flex-grow 1
+       :margin margin
+       :border border}]]))
+
+(def color-svg
+  [:svg
+   [:.rect
+    {:fill :none
+     :pointer-events :all}]
+
+   [:circle :.line
+    {:fill :none
+     :stroke :steelblue
+     :stroke-width (px 1.5)}]
+
+   [:circle
+    {:fill "#fff"
+     :fill-opacity 0.2
+     :cursor :move}]
+
+   [:.selected
+    {:fill "#ff7f0e"
+     :stroke "#ff7f0e"}]])
 
 (defstyles screen
   [noselect
@@ -103,4 +147,5 @@
    navbar-style
    app
    fractal-content
+   color-svg
    ])

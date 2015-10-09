@@ -4,6 +4,21 @@
             [deepfractal.image :as image]
             [deepfractal.utils :as utils]))
 
+(defn input [id label dispatch-event-key val {:keys [exponential?]}]
+  (let [dispatch-fn #(re-frame/dispatch-sync [dispatch-event-key %])
+        onchange-fn (fn [e]
+                      (let [new-val (-> e .-target .-value)]
+                        (dispatch-fn new-val)))]
+    [:div.input
+     [:label label]
+     [:input {:type "number"
+              :step "any"
+              :id id
+              :value (if (and exponential? (number? val) (> val 10000))
+                       (.toExponential val 3)
+                       val)
+              :on-change onchange-fn}]]))
+
 (defn fractal-control-bar []
   (let [fractal-params (re-frame/subscribe [:fractal-params])]
     [:div.fractal-control-bar
@@ -16,13 +31,6 @@
 
     )
   )
-
-(defn fractal-panel []
-  (fn []
-    [:div.content.fractal
-     [fractal-control-bar]
-     [:div#fractal-canvas-div.fractal-canvas-div
-      [fractal-canvas]]]))
 
 (defn onresize-callback []
   (let [div-elem (.getElementById js/document "fractal-canvas-div")
@@ -62,16 +70,11 @@
         [:canvas#fractal-canvas.fractal-canvas @canvas-size
          {:data-params @fractal-params}])})))
 
-(defn input [id label dispatch-event-key val {:keys [exponential?]}]
-  (let [dispatch-fn #(re-frame/dispatch-sync [dispatch-event-key %])
-        onchange-fn (fn [e]
-                      (let [new-val (-> e .-target .-value)]
-                        (dispatch-fn new-val)))]
-    [:div.input
-     [:label label]
-     [:input {:type "number"
-              :id id
-              :value (if (and exponential? (number? val) (> val 10000))
-                       (.toExponential val 3)
-                       val)
-              :on-change onchange-fn}]]))
+(defn fractal-panel []
+  (fn []
+    [:div.content.fractal
+     [:div.fractal-column
+      [fractal-control-bar]
+      [:div#fractal-canvas-div.fractal-canvas-div
+       [fractal-canvas]]]
+     [:div.color-column]]))
