@@ -2,7 +2,8 @@
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
             [deepfractal.image :as image]
-            [deepfractal.utils :as utils]))
+            [deepfractal.utils :as utils]
+            [deepfractal.views.color :as color]))
 
 (defn input [id label dispatch-event-key val {:keys [exponential?]}]
   (let [dispatch-fn #(re-frame/dispatch-sync [dispatch-event-key %])
@@ -73,8 +74,9 @@
 (defn fractal-panel []
   (fn []
     [:div.content.fractal
-     [:div.fractal-column
+     [:div.fractal-row
       [fractal-control-bar]
       [:div#fractal-canvas-div.fractal-canvas-div
        [fractal-canvas]]]
-     [:div.color-column]]))
+     [:div.color-row
+      [color/color-editor]]]))

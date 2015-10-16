@@ -86,9 +86,9 @@
       :flex-direction :column
       :flex-wrap :nowrap
       :margin margin}
-     [:.fractal-column
+     [:.fractal-row
       {:position :relative
-       :flex-grow 4
+       :flex [[3 1 (px 900)]]
        :display :flex
        :flex-direction :row
        :flex-wrap :nowrap
@@ -99,7 +99,8 @@
         :width (em 15)
         :margin margin
         :padding [[(em 0.2) (em 0.5)]]
-        :border border}
+        :border border
+        :overflow-y :auto}
        [:.input
         [:input
          {:width (percent 100)
@@ -115,11 +116,18 @@
         :border border
         :margin margin
         :overflow :hidden}]]
-     [:.color-column
-      {:min-height (vh 15)
-       :flex-grow 1
-       :margin margin
-       :border border}]]))
+     [:.color-row
+      {:position :relative
+       :flex [[2 1 (px 900)]]
+       :display :flex
+       :flex-direction :row
+       :flex-wrap :nowrap
+       :overflow :hidden
+       :min-height (vh 15)}
+      [:.color-editor
+       {:flex-grow 1
+        :margin margin
+        :border border}]]]))
 
 (def color-svg
   [:svg
