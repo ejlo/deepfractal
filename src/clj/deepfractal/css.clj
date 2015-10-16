@@ -123,23 +123,23 @@
 
 (def color-svg
   [:svg
-   [:.rect
-    {:fill :none
-     :pointer-events :all}]
-
-   [:circle :.line
-    {:fill :none
+   [:circle
+    {:fill "#fff"
+     :fill-opacity 0.6
+     :cursor :move
      :stroke :steelblue
      :stroke-width (px 1.5)}]
 
-   [:circle
-    {:fill "#fff"
-     :fill-opacity 0.2
-     :cursor :move}]
+   [:line
+    {:fill :none
+     :stroke :black
+     :stroke-width (px 2)}]
 
-   [:.selected
-    {:fill "#ff7f0e"
-     :stroke "#ff7f0e"}]])
+   [:.red   [:line {:stroke "#c00"}]]
+   [:.green [:line {:stroke "#0c0"}]]
+   [:.blue  [:line {:stroke "#00c"}]]
+   [:.alpha [:line {:stroke "#888"}]]
+])
 
 (defstyles screen
   [noselect

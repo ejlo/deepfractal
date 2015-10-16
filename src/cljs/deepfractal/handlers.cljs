@@ -1,8 +1,8 @@
 (ns deepfractal.handlers
-    (:require [re-frame.core :as re-frame]
-              [deepfractal.db :as db]
-              [deepfractal.utils :as utils]
-              [deepfractal.math.coords :as coords]))
+  (:require [re-frame.core :as re-frame]
+            [deepfractal.db :as db]
+            [deepfractal.utils :as utils]
+            [deepfractal.math.coords :as coords]))
 
 (re-frame/register-handler
  :initialize-db
@@ -62,3 +62,23 @@
          (assoc-in [:fractal-params :zoom]
                    (utils/round-to-significant-figures (* zoom zoom-factor) 2.5))
          (assoc-in [:fractal-params :center] new-center)))))
+
+
+
+
+(defonce current-id (atom 0))
+
+(defn get-new-id! []
+  (swap! current-id inc)
+  @current-id)
+
+(re-frame/register-handler
+ :color-editor-add-node
+ (fn [db [_ class p]]
+   (println "(color-svg-add-node)" p)
+   (update-in db [:color-editor :paths class] conj [(get-new-id!) p])))
+
+(re-frame/register-handler
+ :color-editor-move-point
+ (fn [db [_ class k new-point]]
+   (assoc-in db [:color-editor :paths class k] new-point)))

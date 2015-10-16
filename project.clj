@@ -1,6 +1,7 @@
 (defproject deepfractal "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
+                 [tailrecursion/cljs-priority-map "1.1.0"]
                  [reagent "0.5.1"]
                  [re-frame "0.4.1"]
                  [garden "1.3.0-SNAPSHOT"]
@@ -16,8 +17,7 @@
             [lein-bower "0.5.1"]
             [lein-shell "0.4.1"]]
 
-  :bower-dependencies [[d3 "3.5.6"]
-                       [decimal.js "4.0.2"]
+  :bower-dependencies [[decimal.js "4.0.2"]
                        [bootstrap-css-only "3.3.5"]]
 
   :bower {:directory "bower_components"}

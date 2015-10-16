@@ -17,3 +17,8 @@
  :fractal-params
  (fn [db]
    (reaction (:fractal-params @db))))
+
+(re-frame/register-sub
+ :color-editor-paths
+ (fn [db]
+   (reaction (get-in @db [:color-editor :paths]))))
