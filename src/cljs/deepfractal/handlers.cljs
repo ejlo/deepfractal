@@ -82,3 +82,16 @@
  :color-editor-move-point
  (fn [db [_ class k new-point]]
    (assoc-in db [:color-editor :paths class k] new-point)))
+
+
+(re-frame/register-handler
+ :set-color-editor-bcr
+ (fn [db [_]]
+   (let [svg-node (utils/by-id "color-editor")
+         b (.getBoundingClientRect svg-node)
+         bcr {:left (.-left b)
+              :top (.-top b)
+              :height (.-height b)
+              :width (.-width b)}]
+     (println "(set-color-editor-scales)" bcr)
+     (assoc-in db [:color-editor :bcr] bcr))))

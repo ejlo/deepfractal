@@ -130,24 +130,33 @@
         :border border}]]]))
 
 (def color-svg
-  [:svg
-   [:circle
-    {:fill "#fff"
-     :fill-opacity 0.6
-     :cursor :move
-     :stroke :steelblue
-     :stroke-width (px 1.5)}]
+  [:.color-editor
+   {:position :relative}
 
-   [:line
-    {:fill :none
-     :stroke :black
-     :stroke-width (px 2)}]
+   [:svg
+    {:position :absolute
+     :height (percent 100)
+     :width (percent 100)
+     :left 0
+     :top 0}
 
-   [:.red   [:line {:stroke "#c00"}]]
-   [:.green [:line {:stroke "#0c0"}]]
-   [:.blue  [:line {:stroke "#00c"}]]
-   [:.alpha [:line {:stroke "#888"}]]
-])
+     [:circle
+      {:fill "#fff"
+       :fill-opacity 0.6
+       :cursor :move
+       :stroke :steelblue
+       :stroke-width (px 1.5)}]
+
+     [:line
+      {:fill :none
+       :stroke :black
+       :stroke-width (px 2)}]
+
+     [:.red   [:line {:stroke "#c00"}]]
+     [:.green [:line {:stroke "#0c0"}]]
+     [:.blue  [:line {:stroke "#00c"}]]
+     [:.alpha [:line {:stroke "#888"}]]
+     ]])
 
 (defstyles screen
   [noselect

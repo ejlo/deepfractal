@@ -37,3 +37,6 @@
         _ (prn )]
     (prn (str label ": " ms "ms, " Miter-per-s "M it./s"))
     Miter-per-s))
+
+(defn by-id [id]
+  (.getElementById js/document id))

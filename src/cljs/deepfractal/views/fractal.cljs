@@ -34,8 +34,8 @@
   )
 
 (defn onresize-callback []
-  (let [div-elem (.getElementById js/document "fractal-canvas-div")
-        canvas-elem (.getElementById js/document "fractal-canvas")
+  (let [div-elem (utils/by-id "fractal-canvas-div")
+        canvas-elem (utils/by-id "fractal-canvas")
         width (.-clientWidth div-elem)
         height (.-clientHeight div-elem)]
     (re-frame/dispatch [:set-canvas-size {:width width :height height}])))
@@ -56,8 +56,8 @@
      {:component-did-mount
       #(do
          (.addEventListener js/window "resize" onresize-callback)
-           (.addEventListener (.getDOMNode %) "mousedown" mousedown-callback)
-           (onresize-callback))
+         (.addEventListener (.getDOMNode %) "mousedown" mousedown-callback)
+         (onresize-callback))
 
       :component-will-unmount
       #(.removeEventListener js/window "resize" onresize-callback)
