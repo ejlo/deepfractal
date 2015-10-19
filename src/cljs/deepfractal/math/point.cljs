@@ -10,8 +10,27 @@
   (y [_] y-coord)
 
   Object
-  (toString [_]
-      (str "(" x-coord ", " y-coord ")"))
+  (toString [_] (str "#<" x-coord ", " y-coord ">"))
+
+  IComparable
+  (-compare [_ other]
+    (let [c (compare x-coord (x other))]
+      (if (zero? c)
+        (compare y-coord (y other))
+        c)))
+
+  IPrintWithWriter
+  (-pr-writer [_ writer _]
+    (-write writer (str "#<" x-coord ", " y-coord ">")))
+
+  IIndexed
+  (-nth [p n]
+      (nth p n nil))
+  (-nth [p n not-found]
+    (cond
+      (= n 0) (x p)
+      (= n 1) (y p)
+      :default not-found))
   )
 
 (defn point [x y]

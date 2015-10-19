@@ -75,7 +75,7 @@
 (re-frame/register-handler
  :color-editor-add-node
  (fn [db [_ class p]]
-   (println "(color-svg-add-node)" p)
+   (println "(color-editor-add-node)" p)
    (update-in db [:color-editor :paths class] conj [(get-new-id!) p])))
 
 (re-frame/register-handler
@@ -93,5 +93,4 @@
               :top (.-top b)
               :height (.-height b)
               :width (.-width b)}]
-     (println "(set-color-editor-scales)" bcr)
      (assoc-in db [:color-editor :bcr] bcr))))

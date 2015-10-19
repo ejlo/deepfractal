@@ -118,12 +118,12 @@
         :overflow :hidden}]]
      [:.color-row
       {:position :relative
-       :flex [[2 1 (px 900)]]
+       :flex [[1 1 (px 200)]]
+       :min-height (px 50)
        :display :flex
        :flex-direction :row
        :flex-wrap :nowrap
-       :overflow :hidden
-       :min-height (vh 15)}
+       :overflow :hidden}
       [:.color-editor
        {:flex-grow 1
         :margin margin

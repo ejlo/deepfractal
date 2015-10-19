@@ -51,7 +51,8 @@
 
 (defn fractal-canvas []
   (let [canvas-size (re-frame/subscribe [:canvas-size])
-        fractal-params (re-frame/subscribe [:fractal-params])]
+        fractal-params (re-frame/subscribe [:fractal-params])
+        color-paths (re-frame/subscribe [:color-editor-paths])]
     (reagent/create-class
      {:component-did-mount
       #(do
@@ -67,9 +68,10 @@
       :reagent-render
       (fn []
         (utils/debounce "canvas" 250
-                        #(image/draw-image @canvas-size @fractal-params))
+                        #(image/draw-image @canvas-size @fractal-params @color-paths))
         [:canvas#fractal-canvas.fractal-canvas @canvas-size
-         {:data-params @fractal-params}])})))
+         {:data-params @fractal-params
+          :color-paths @color-paths}])})))
 
 (defn fractal-panel []
   (fn []

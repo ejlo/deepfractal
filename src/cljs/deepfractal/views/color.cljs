@@ -3,7 +3,7 @@
             [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [deepfractal.utils :as utils]
-            [deepfractal.math.point :as g :refer [x y dist]])
+            [deepfractal.math.point :as p])
   (:import [goog.events EventType]))
 
 (defn drag-start [drag-move drag-end on-start drag-end-atom]
@@ -38,19 +38,20 @@
       [:circle
        {:on-mouse-down #(dragging on-drag)
         :r @r
-        :cx (x p)
-        :cy (* @y-scale (y p))}])))
+        :cx (p/x p)
+        :cy (* @y-scale (- 100 (p/y p)))}])))
 
 (defn segment [from to]
   (let [y-scale (re-frame/subscribe [:color-editor-y-scale])]
     (fn [from to]
       [:line
-       {:x1 (x from) :y1 (* @y-scale (y from))
-        :x2 (x to) :y2 (* @y-scale (y to))}])))
+       {:x1 (p/x from) :y1 (* @y-scale (- 100 (p/y from)))
+        :x2 (p/x to)   :y2 (* @y-scale (- 100 (p/y to)))}])))
 
 (defn move-point [bcr y-scale class k]
   (fn [x y]
-    (let [new-point (g/point (- x (:left bcr)) (/ (- y (:top bcr)) y-scale))]
+    (let [new-point (p/point (- x (:left bcr))
+                             (- 100 (/ (- y (:top bcr)) y-scale)))]
       (utils/debounce :move-point-dispatch 1
                       #(re-frame/dispatch [:color-editor-move-point class k new-point])))))
 
