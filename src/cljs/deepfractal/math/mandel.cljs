@@ -1,6 +1,7 @@
 (ns deepfractal.math.mandel
   (:require [deepfractal.utils :as utils]
             [deepfractal.math.fns :refer [limit] :as fns ]
+            [deepfractal.math.arprec :as arprec]
             ))
 
 
@@ -35,6 +36,35 @@
                    (+ (- (* tx dx) (* ty dy)) in-dx)
                    (+ (* tx dy) (* tx dy) in-dy))))))))
 
+(defn mandel-arprec [max-n in-x in-y]
+  (let [x-array #js []
+        y-array #js []
+        [x y diff sum] (repeatedly arprec/make)
+        cathetus-limit (.sqrt js/Math (/ limit 2))
+        limit (arprec/make limit)]
+    (loop [n 0]
+      (let [x_d (arprec/to_double x)
+            y_d (arprec/to_double y)]
+        (aset x-array n x_d)
+        (aset y-array n y_d)
+        (if (== n max-n)
+          {:values max-n :data [x-array y-array]}
+          (do
+            (if (and (or (> (.abs js/Math x_d) cathetus-limit)
+                         (> (.abs js/Math y_d) cathetus-limit))
+                     (arprec/greater-than
+                      (+ (arprec/sqr x) (arprec/sqr y))
+                      limit))
+              {:values n :data [x-array y-array]}
+              (do
+                (arprec/sub-set! diff x y)
+                (arprec/add-set! sum x y)
+                (arprec/mul-with! y x)
+                (arprec/mul-with! y 2)
+                (arprec/add-to! y in-y)
+                (arprec/mul-set! x diff sum)
+                (arprec/add-to! x in-x)
+                (recur (inc n))))))))))
 
 (def mandel mandel-simple)
 
@@ -113,4 +143,14 @@
     )
 
 
+  (do
+    (arprec/set-precision 1000000)
+    (time (def ref (mandel-arprec 100 (arprec/make 0.1) (arprec/make 0.4))))
+    ;; ~380k it/s for precision 100
+    ;;  ~28k it/s for precision 1000
+    ;; ~1.1k it/s for precision 10000
+    ;;  ~120 it/s for precision 100000
+    ;;   ~11 it/s for precision 1000000 (compile arprec with -s TOTAL_MEMORY=134217728)
+    nil
+    )
   )

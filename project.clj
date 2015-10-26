@@ -30,7 +30,12 @@
             "fig" ["figwheel" "dev"]
             "auto" ["pdo" "css," "fig"]
             "dev" ["do" "clean," "auto"]
+
+            ;; install & upgrade
             "bower-install" ["do" "bower" "install," "shell" "scripts/install.sh"]
+            "npm-install" ["npm" "install"]
+            "c-install" ["shell" "scripts/install_arprec_wrapper.sh"]
+            "install-deps" ["do" "deps," "npm-install," "bower-install," "c-install"]
             "check-deps" ["ancient" ":all"]
             "upgrade-deps" ["ancient" "upgrade" ":all"]}
 
