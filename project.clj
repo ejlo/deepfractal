@@ -14,22 +14,38 @@
             [lein-garden "0.2.6"]
             [lein-pdo "0.1.1"]
             [lein-ancient "0.6.7"]
-            [lein-bower "0.5.1"]
+            [lein-npm "0.6.1"]
+            #_[lein-bower "0.5.1"]
             [lein-shell "0.4.1"]]
 
-  :bower-dependencies [[decimal.js "4.0.2"]
-                       [bootstrap-css-only "3.3.5"]]
+
+  :npm {:dependencies [[serve-static "1.10.0"]
+                       [express "4.13.3"]
+]}
+
+  :bower-dependencies [[bootstrap-css-only "3.3.5"]]
 
   :bower {:directory "bower_components"}
 
   :clean-targets ^{:protect false} ["target" "test/js"
                                     "resources/public/js/compiled"
-                                    "resources/public/css/compiled"]
+                                    "resources/public/css/compiled"
+                                    "resources/server/js/compiled"]
 
-  :aliases {"css" ["garden" "auto"]
+  :aliases {;; development
+            "css" ["garden" "auto"]
             "fig" ["figwheel" "dev"]
             "auto" ["pdo" "css," "fig"]
             "dev" ["do" "clean," "auto"]
+
+            ;; production
+            "css-prod" ["garden" "once"]
+            "js-prod" ["cljsbuild" "once" "prod"]
+            "server" ["cljsbuild" "once" "server"]
+            "server-auto" ["cljsbuild" "auto" "server"]
+            "prod" ["do" "clean," "css-prod," "js-prod," "server"]
+            "start-server" ["shell" "node" "resources/server/js/compiled/server.js"]
+            "prod-start" ["do"  "prod," "server," "start-server,"]
 
             ;; install & upgrade
             "bower-install" ["do" "bower" "install," "shell" "scripts/install.sh"]
@@ -68,9 +84,18 @@
                                    :output-to "test/js/app_test.js"
                                    :warnings {:single-segment-namespace false}}}
 
-                       {:id "min"
+                       {:id "prod"
                         :source-paths ["src/cljs"]
                         :compiler {:main deepfractal.core
                                    :output-to "resources/public/js/compiled/app.js"
                                    :optimizations :advanced
-                                   :pretty-print false}}]})
+                                   :pretty-print false}}
+
+
+                       {:id "server"
+                        :source-paths ["src/server"]
+                        :compiler {:main deepfractal.server.core
+                                   :output-to "resources/server/js/compiled/server.js"
+                                   :optimizations :simple
+                                   :target :nodejs}}
+                       ]})
